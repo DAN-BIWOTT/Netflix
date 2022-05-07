@@ -1,10 +1,30 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import Banner from '../components/Banner'
 import Header from '../components/Header'
+import { Movie } from '../typings'
 import requests from '../utils/requests'
 
-const Home: NextPage = () => {
+interface Props {
+  netflixOriginals: Movie[]
+  trendingNow: Movie[]
+  topRated: Movie[]
+  actionMovies: Movie[]
+  comedyMovies: Movie[]
+  horrorMovies: Movie[]
+  romanceMovies: Movie[]
+  documentaries: Movie[]
+}
+
+const Home = ({
+  netflixOriginals,
+  trendingNow,
+  topRated,
+  actionMovies,
+  comedyMovies,
+  horrorMovies,
+  romanceMovies,
+  documentaries,
+}: Props) => {
   return (
     <div
       className="relative h-screen bg-gradient-to-b from-gray-900/10
@@ -16,7 +36,7 @@ const Home: NextPage = () => {
       </Head>
       <Header />
       <main>
-        <Banner />
+        <Banner netflixOriginals={netflixOriginals} />
         <section>
           {/* Row */}
           {/* Row */}
@@ -53,8 +73,8 @@ export const getServerSideProps = async () => {
     fetch(requests.fetchDocumentaries).then((res) => res.json()),
   ])
 
-  return{
-    props:{
+  return {
+    props: {
       netflixOriginals: netflixOriginals.results,
       trendingNow: trendingNow.results,
       topRated: topRated.results,
@@ -63,7 +83,6 @@ export const getServerSideProps = async () => {
       horrorMovies: horrorMovies.results,
       romanceMovies: romanceMovies.results,
       documentaries: documentaries.results,
-    }
+    },
   }
-
 }
